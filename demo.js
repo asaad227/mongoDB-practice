@@ -13,11 +13,13 @@ async function main(){
         //     bathroom: 1
 
         // })
-        await upsertListingByName(client, "Very Dirty",{ name: "Very Dirty",
-            bedroom: 2,
-            bathroom: 2
+    //     await upsertListingByName(client, "Very Dirty",{ name: "Very Dirty",
+    //         bedroom: 10,
+    //         bathroom: 3
             
-       })
+    //    })
+        await deleteListingByName(client, "Very Dirty") 
+
         //   await updateListing(client, "Sunshine",{
         //      bedroom: 2,
         //      bathroom: 2
@@ -92,16 +94,23 @@ main().catch(console.error)
 //     console.log(`${result.matchedCount} found that many results.`)
 //     console.log(`${result.modifiedCount} has been modified`)
 // }
-async function upsertListingByName(client, nameOfListing, updateListing, upsert){
+// async function upsertListingByName(client, nameOfListing, updateListing, upsert){
 
-    const result = await client.db('sample_airbnb').collection('listingsAndReviews').updateOne({name: nameOfListing}, {$set: updateListing}, {upsert:true});
+//     const result = await client.db('sample_airbnb').collection('listingsAndReviews').updateOne({name: nameOfListing}, {$set: updateListing}, {upsert:true});
 
-    if(result.upsertedCount > 0){
-        console.log(`one document(s) has been inserted with following id: ${result.upsertedId}`)
-    }else{
-        console.log(`${result.modifiedCount} has been modified`)
-    }
+//     if(result.upsertedCount > 0){
+//         console.log(`one document(s) has been inserted with following id: ${result.upsertedId}`)
+//     }else{
+//         console.log(`${result.modifiedCount} has been modified`)
+//     }
    
+// }
+
+async function deleteListingByName(client, nameOfListing){
+
+    const result = await client.db('sample_airbnb').collection('listingsAndReviews').deleteOne({name:nameOfListing});
+    console.log(`${result.deletedCount} deleted`)
+
 }
 
 // async function listDatabases(client){

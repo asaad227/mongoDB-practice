@@ -1,0 +1,1 @@
+DATABASE_URL=mongodb+srv://ahammedSaad:DRtjyvl4icxDLCyI@cluster0.mh3cb.mongodb.net/Cluster0?retryWrites=true&w=majority
