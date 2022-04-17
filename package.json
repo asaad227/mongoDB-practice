@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "dependencies": {
+    "mongodb": "^4.5.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
+  }
+}
