@@ -1,24 +1,25 @@
-import { MongoClient } from "mongodb";
-const connectionString = process.env.DATABASE_URL;
-const client = new MongoClient(connectionString, {
+import pkg from 'mongodb';
+const {MongoClient} = pkg;
+const connectionString = process.env.ATLAS_URI;
+const client = new MongoClient(connectionString,{
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 let dbConnection;
 
-export function connectToServer(callback) {
-    client.connect(function (err, db) {
-        if (err || !db) {
-            return callback(err);
-        }
+export async function connectToServer(callback) {
+  await client.connect(function (err, db) {
+    if (err || !db) {
+      return callback(err);
+    }
 
-        dbConnection = db.db("sample_airbnb");
-        console.log("Successfully connected to MongoDB.");
+    dbConnection = db.db('sample_airbnb');
+    console.log('Successfully connected to MongoDB.');
 
-        return callback();
-    });
+    return callback();
+  });
 }
-export function getDb() {
-    return dbConnection;
+export async function getDb() {
+  return await dbConnection;
 }
