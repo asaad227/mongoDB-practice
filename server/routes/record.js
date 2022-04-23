@@ -133,10 +133,10 @@ recordRoutes.delete('/listings/delete/:id', async (req, res)=> {
 
 
 
-recordRoutes.put('/listings/update/:id', async (req, res) => {
+recordRoutes.patch('/listings/update/:id', async (req, res) => {
  
 const dbConnect = await getDb();
-const updated = await dbConnect.collection('listingsAndReviews').findOneAndUpdate({_id: ObjectId(req.body.id)}, {$set: req.body}) 
+const updated = await dbConnect.collection('listingsAndReviews').findOneAndUpdate({_id: ObjectId(req.params.id)}, {$set: req.body}) 
 
 if(updated){
     res.json({
