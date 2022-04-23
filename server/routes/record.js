@@ -9,7 +9,7 @@ const recordRoutes = express.Router();
 // This will help us connect to the database
 import { getDb } from '../db/conn.js';
 
-// This section will help you get a list of all the records.
+// This function will get a list of all the records.
 recordRoutes.get('/listings', async function (req, res) {
   const dbConnect = await getDb();
   dbConnect
@@ -27,6 +27,8 @@ recordRoutes.get('/listings', async function (req, res) {
       }
     });
 });
+
+// This function will get all elements by ID
 recordRoutes.get('/listings/:id', async (req, res)=>{
   const dbConnect = await getDb();
   const findById = await dbConnect.collection('listingsAndReviews').findOne({_id: ObjectId(req.params.id)})
@@ -52,6 +54,8 @@ recordRoutes.get('/listings/:id', async (req, res)=>{
   
 //       console.log(`newListing has been created with following id: ${result.insertedId}`)
 //   }
+
+// This function will create a new element 
 recordRoutes.post('/listings', async (req, res)=>{
   const dbConnect = await getDb();
       const result = await dbConnect.collection('listingsAndReviews').insertOne({newListing: req.body});
@@ -110,6 +114,8 @@ res.json({
 // });
 
 // This section will help you delete a record.
+
+// This function will delete the element by id
 recordRoutes.delete('/listings/delete/:id', async (req, res)=> {
   const dbConnect = await getDb();
   const deleted = await dbConnect.collection('listingsAndReviews').deleteOne({_id: ObjectId(req.params.id)})
@@ -132,6 +138,7 @@ recordRoutes.delete('/listings/delete/:id', async (req, res)=> {
 });
 
 
+//// This function will update by ID 
 
 recordRoutes.patch('/listings/update/:id', async (req, res) => {
 
