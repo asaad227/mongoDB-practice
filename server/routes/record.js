@@ -131,4 +131,29 @@ recordRoutes.delete('/listings/delete/:id', async (req, res)=> {
   
 });
 
+
+
+// recordRoutes.put('/listings/update/:id', async (req, res) => {
+ 
+// const dbConnect = await getDb();
+// const updated = await dbConnect.collection('listingsAndReviews').findOneAndUpdate({_id: ObjectId(req.body.id)}, {$set: req.body}) 
+
+// if(updated){
+//     res.json({
+          
+//       success: true,
+//       payload: updated,
+      
+//     });
+//   }else{
+//     res.json({
+//       success: false,
+//       payload: `It was not updates`
+//     })
+//   }
+  
+  
+// });
+
+
 export default recordRoutes;
