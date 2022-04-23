@@ -12,7 +12,7 @@ import { getDb } from '../db/conn.js';
 // This function will get a list of all the records.
 recordRoutes.get('/listings', async function (req, res) {
   const dbConnect = await getDb();
-  dbConnect
+  await dbConnect
     .collection('listingsAndReviews')
     .find({})
     .limit(50)
@@ -29,43 +29,47 @@ recordRoutes.get('/listings', async function (req, res) {
 });
 
 // This function will get all elements by ID
-recordRoutes.get('/listings/:id', async (req, res)=>{
+recordRoutes.get('/listings/:id', async (req, res) => {
   const dbConnect = await getDb();
-  const findById = await dbConnect.collection('listingsAndReviews').findOne({_id: ObjectId(req.params.id)})
+  const findById = await dbConnect
+    .collection('listingsAndReviews')
+    .findOne({ _id: ObjectId(req.params.id) });
 
-  if(findById){
+  if (findById) {
     res.json({
-          
       success: true,
       payload: findById,
-      
     });
-  }else{
+  } else {
     res.json({
       success: false,
       payload: `No valid Id was found`,
-    })
+    });
   }
 });
 
 // async function createListing( newListing){
 //   const dbConnect = await getDb();
 //       const result = await dbConnect.collection('listingsAndReviews').insertOne(newListing);
-  
+
 //       console.log(`newListing has been created with following id: ${result.insertedId}`)
 //   }
 
-// This function will create a new element 
-recordRoutes.post('/listings', async (req, res)=>{
+// This function will create a new element
+recordRoutes.post('/listings', async (req, res) => {
   const dbConnect = await getDb();
-      const result = await dbConnect.collection('listingsAndReviews').insertOne({newListing: req.body});
-  
-      console.log(`newListing has been created with following id: ${result.insertedId}`)
+  const result = await dbConnect
+    .collection('listingsAndReviews')
+    .insertOne({ newListing: req.body });
 
-res.json({
-  success: true,
-  payload: result,
-})
+  console.log(
+    `newListing has been created with following id: ${result.insertedId}`
+  );
+
+  res.json({
+    success: true,
+    payload: result,
+  });
 });
 
 // // This section will help you create a new record.
@@ -116,52 +120,47 @@ res.json({
 // This section will help you delete a record.
 
 // This function will delete the element by id
-recordRoutes.delete('/listings/delete/:id', async (req, res)=> {
+recordRoutes.delete('/listings/delete/:id', async (req, res) => {
   const dbConnect = await getDb();
-  const deleted = await dbConnect.collection('listingsAndReviews').deleteOne({_id: ObjectId(req.params.id)})
-     
-  if(deleted){
+  const deleted = await dbConnect
+    .collection('listingsAndReviews')
+    .deleteOne({ _id: ObjectId(req.params.id) });
+
+  if (deleted) {
     res.json({
-          
       success: true,
       payload: deleted,
-      
     });
-  }else{
+  } else {
     res.json({
       success: false,
-      payload: `No valid Id was found`
-    })
+      payload: `No valid Id was found`,
+    });
   }
-  
-  
 });
 
-
-//// This function will update by ID 
+//// This function will update by ID
 
 recordRoutes.patch('/listings/update/:id', async (req, res) => {
+  const dbConnect = await getDb();
+  const updated = await dbConnect
+    .collection('listingsAndReviews')
+    .updateOne(
+      { _id: ObjectId(req.params.id) },
+      { $set: { newListing: req.body } }
+    );
 
- 
-const dbConnect = await getDb();
-const updated = await dbConnect.collection('listingsAndReviews').updateOne({_id: ObjectId(req.params.id)}, {$set: {newListing: req.body}}) 
-
-if(updated){
+  if (updated) {
     res.json({
-          
       success: true,
       payload: updated,
-      
     });
-  }else{
+  } else {
     res.json({
       success: false,
-      payload: `It was not updates`
-    })
+      payload: `It was not updates`,
+    });
   }
-  
-  
 });
-
 
 export default recordRoutes;

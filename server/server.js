@@ -4,10 +4,10 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 // get MongoDB driver connection
-import { connectToServer } from './db/conn.js'; 
+import { connectToServer } from './db/conn.js';
 import recordRoutes from './routes/record.js';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors());
@@ -18,8 +18,8 @@ app.use('/', recordRoutes);
 app.use(function (err, req, res) {
   console.error(err.stack);
   res.json({
-    error: true
-  })
+    error: true,
+  });
 });
 
 // perform a database connection when the server starts
@@ -28,9 +28,8 @@ connectToServer(function (err) {
     console.error(err);
     process.exit();
   }
-  });
-  // start the Express server
-  app.listen(PORT, () => {
-    console.log(`Server is running on port: ${PORT}`);
-
+});
+// start the Express server
+app.listen(PORT, () => {
+  console.log(`Server is running on port: ${PORT}`);
 });
