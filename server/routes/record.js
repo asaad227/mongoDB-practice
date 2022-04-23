@@ -1,17 +1,17 @@
-import { Router } from 'express';
-import {deleteListingByName} from '../../demo.js'
+import express from 'express';
+import pkg from 'mongodb';
+const { ObjectId } = pkg;
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /listings.
-const recordRoutes = Router();
+const recordRoutes = express.Router();
 
 // This will help us connect to the database
 import { getDb } from '../db/conn.js';
 
 // This section will help you get a list of all the records.
-recordRoutes.get('/listings', async function (_req, res) {
+recordRoutes.get('/listings', async function (req, res) {
   const dbConnect = await getDb();
-
   dbConnect
     .collection('listingsAndReviews')
     .find({})
@@ -21,13 +21,47 @@ recordRoutes.get('/listings', async function (_req, res) {
         res.status(400).send('Error fetching listings!');
       } else {
         res.json({
-          
           success: true,
-          payload: result
-          
+          payload: result,
         });
       }
     });
+});
+recordRoutes.get('/listings/:id', async (req, res)=>{
+  const dbConnect = await getDb();
+  const findById = await dbConnect.collection('listingsAndReviews').findOne({_id: ObjectId(req.params.id)})
+
+  if(findById){
+    res.json({
+          
+      success: true,
+      payload: findById,
+      
+    });
+  }else{
+    res.json({
+      success: false,
+      payload: `No valid Id was found`,
+    })
+  }
+});
+
+// async function createListing( newListing){
+//   const dbConnect = await getDb();
+//       const result = await dbConnect.collection('listingsAndReviews').insertOne(newListing);
+  
+//       console.log(`newListing has been created with following id: ${result.insertedId}`)
+//   }
+recordRoutes.post('/listings', async (req, res)=>{
+  const dbConnect = await getDb();
+      const result = await dbConnect.collection('listingsAndReviews').insertOne({newListing: req.body});
+  
+      console.log(`newListing has been created with following id: ${result.insertedId}`)
+
+res.json({
+  success: true,
+  payload: result,
+})
 });
 
 // // This section will help you create a new record.
@@ -76,16 +110,25 @@ recordRoutes.get('/listings', async function (_req, res) {
 // });
 
 // This section will help you delete a record.
-recordRoutes.delete('/listings/:id', async function(req, res) {
+recordRoutes.delete('/listings/delete/:id', async (req, res)=> {
   const dbConnect = await getDb();
-  const id = Number(req.params.id)
-  const deleted = await deleteListingByName(dbConnect, id);
-     res.json({
+  const deleted = await dbConnect.collection('listingsAndReviews').deleteOne({_id: ObjectId(req.params.id)})
+     
+  if(deleted){
+    res.json({
           
-          success: true,
-          payload: deleted
-          
-        });
+      success: true,
+      payload: deleted,
+      
+    });
+  }else{
+    res.json({
+      success: false,
+      payload: `No valid Id was found`
+    })
+  }
+  
+  
 });
 
 export default recordRoutes;
