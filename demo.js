@@ -18,7 +18,7 @@ async function main(){
     //         bathroom: 3
             
     //    })
-        await deleteListingByName(client, "Very Dirty") 
+        // await deleteListingByName(client, "Very Dirty") 
 
         //   await updateListing(client, "Sunshine",{
         //      bedroom: 2,
@@ -58,7 +58,7 @@ async function main(){
 
 }
 
-main().catch(console.error)
+// main().catch(console.error)
 
 
 
@@ -106,9 +106,9 @@ main().catch(console.error)
    
 // }
 
-async function deleteListingByName(client, nameOfListing){
+export async function deleteListingByName(client, id){
 
-    const result = await client.db('sample_airbnb').collection('listingsAndReviews').deleteOne({name:nameOfListing});
+    const result = client.collection('listingsAndReviews').deleteOne(id);
     console.log(`${result.deletedCount} deleted`)
 
 }
@@ -120,3 +120,4 @@ async function deleteListingByName(client, nameOfListing){
 //         console.log(`- ${db.name}`)
 //     });
 // }
+
