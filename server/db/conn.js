@@ -9,7 +9,7 @@ const client = new MongoClient(connectionString,{
 let dbConnection;
 
 export async function connectToServer(callback) {
-  await client.connect(function (err, db) {
+  const result = await client.connect(function (err, db) {
     if (err || !db) {
       return callback(err);
     }
@@ -19,6 +19,8 @@ export async function connectToServer(callback) {
 
     return callback();
   });
+
+  return result;
 }
 export async function getDb() {
   return await dbConnection;

@@ -7,12 +7,12 @@ import cors from 'cors';
 import { connectToServer } from './db/conn.js'; 
 import recordRoutes from './routes/record.js';
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('./routes/record.js', recordRoutes);
+app.use('/', recordRoutes);
 
 // Global error handling
 app.use(function (err, req, res) {
@@ -28,9 +28,9 @@ connectToServer(function (err) {
     console.error(err);
     process.exit();
   }
-
+  });
   // start the Express server
   app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
-  });
+
 });
