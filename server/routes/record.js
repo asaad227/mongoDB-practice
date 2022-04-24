@@ -60,7 +60,7 @@ recordRoutes.post('/listings', async (req, res) => {
   const dbConnect = await getDb();
   const result = await dbConnect
     .collection('listingsAndReviews')
-    .insertOne({ newListing: req.body });
+    .insertOne(req.body);
 
   console.log(
     `newListing has been created with following id: ${result.insertedId}`
@@ -145,10 +145,7 @@ recordRoutes.patch('/listings/update/:id', async (req, res) => {
   const dbConnect = await getDb();
   const updated = await dbConnect
     .collection('listingsAndReviews')
-    .updateOne(
-      { _id: ObjectId(req.params.id) },
-      { $set: { newListing: req.body } }
-    );
+    .updateOne({ _id: ObjectId(req.params.id) }, { $set: req.body });
 
   if (updated) {
     res.json({

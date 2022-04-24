@@ -1,8 +1,6 @@
-import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 const url = `http://localhost:5000/listings`;
-
-function App() {
+export default function Comments() {
   const [data, setData] = useState([]);
 
   async function getApi() {
@@ -12,16 +10,15 @@ function App() {
     setData(payload);
     console.log(payload);
   }
-
-  getApi();
+  useEffect(() => {
+    getApi();
+  }, []);
 
   return (
     <div>
       {data.map((e) => (
-        <div>{e.name}</div>
+        <div key={e._id}>{e.name}</div>
       ))}
     </div>
   );
 }
-
-export default App;
