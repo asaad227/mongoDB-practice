@@ -4,7 +4,8 @@ const url = `http://localhost:5000/listings`;
 export default function Post() {
   const [post, setPost] = useState('');
   const [summary, setSummary] = useState('');
-  const newList = { name: post, summary: summary };
+  const [bedroom, setBedroom] = useState('');
+  const newList = { name: post, summary: summary, bedroom: bedroom };
 
   async function postApi() {
     const response = await fetch(`${url}`, {
@@ -23,6 +24,7 @@ export default function Post() {
     postApi();
     setPost('');
     setSummary('');
+    setBedroom('');
   }
   return (
     <form onSubmit={handleSubmit}>
@@ -30,13 +32,22 @@ export default function Post() {
         name="name"
         type="text"
         onChange={(e) => setPost(e.target.value)}
+        placeholder="name"
         value={post}
       />
       <input
         name="summary"
         type="text"
         onChange={(e) => setSummary(e.target.value)}
+        placeholder="summary"
         value={summary}
+      />
+
+      <input
+        name="bedroom"
+        onChange={(e) => setBedroom(e.target.value)}
+        placeholder="bedroom"
+        value={bedroom}
       />
       <button>Submit</button>
     </form>
