@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "cypress": "^8.5.0",
+    "eslint-plugin-css-modules": "^2.11.0",
     "eslint-plugin-cypress": "^2.12.1",
     "husky": "^7.0.2",
     "lint-staged": "^11.2.0",
@@ -32,9 +33,15 @@
     "prepare": "cd ../../ && husky install app/listings/.husky"
   },
   "eslintConfig": {
+    
+      "plugins": [
+        "css-modules"
+      ],
+     
     "extends": [
       "react-app",
-      "plugin:cypress/recommended"
+      "plugin:cypress/recommended",
+      "plugin:css-modules/recommended"
     ]
   },
   "browserslist": {

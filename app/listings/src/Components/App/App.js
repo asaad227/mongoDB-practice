@@ -5,7 +5,7 @@ import Post from '../Post';
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <Comments />
       <Post />
     </div>
